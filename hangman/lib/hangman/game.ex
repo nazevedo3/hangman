@@ -1,11 +1,16 @@
 defmodule Hangman.Game do
-
   defstruct(
     turns_left: 7,
     game_state: :initializing,
     letters: [],
     used: MapSet.new()
   )
+
+  defimpl Jason.Encoder, for: [MapSet] do
+    def encode(struct, opts) do
+      Jason.Encode.list(Enum.to_list(struct), opts)
+    end
+  end
 
   def new_game(word) do
     %Hangman.Game{
